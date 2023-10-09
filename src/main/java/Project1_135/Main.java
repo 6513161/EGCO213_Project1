@@ -1,3 +1,6 @@
+//6513135 Purin Pongpanich
+//6513161 Jarupat Chodsitanan
+//6513163 Chalisa Buathong
 package Project1_135;
 
 import java.util.Collections;
@@ -16,7 +19,7 @@ public final class Main {
         //Input file path
         String inputPath = "src/main/java/Project1_135/";
         String hotelPath = inputPath + "hotel.txt";
-        String bookingPath = inputPath + "bookings_errors.txt";
+        String bookingPath = inputPath + "bookings.txt";
 
         boolean hotelFound = false;
         boolean bookingFound = false;
@@ -55,6 +58,55 @@ public final class Main {
         }
 
         // Booking processing
+        for(int bookingID : booking.getBookingIDs()){
+            String customerName = booking.getCustomerName(bookingID);
+            booking.fetchCustomerCashBack(bookingID);
+            int cashBack = booking.getCashBack(bookingID);
+            int night = booking.getNight(bookingID);
+            int[] roomTypes = booking.getRoomTypes(bookingID);
+            double[] roomPrice = room.getRoomPrice();
+            int redeem = 0;
+            double totalRoomPrice = 0;
+            double totalMealPrice = 0;
+            for (int i = 0; i < roomTypes.length; i++) {
+                try {
+                    if (i == roomTypes.length - 1) {
+                        totalMealPrice += meal.getPrice() * roomTypes[i];
+                        meal.addTotalSaleInUnit(roomTypes[i]);
+                        meal.addTotalSaleInCash(totalMealPrice);
+                    } else {
+                        totalRoomPrice += roomPrice[i] * roomTypes[i];
+                        room.addTotalSaleInUnit(room.getRoomType(i), roomTypes[i]);
+                        room.addTotalSaleInCash(room.getRoomType(i), roomTypes[i] * roomPrice[i]);
+                    }
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
+            double totalBill = totalRoomPrice + totalMealPrice;
+            if(cashBack > totalBill/2){
+                redeem = (int)totalBill/2;
+            }else{
+                redeem = cashBack;
+            }
+            int newCashback = (int) (totalRoomPrice * 0.05);
+            double finalBill = totalBill - redeem;
+            booking.setCashBack(bookingID, newCashback);
+
+            // Print booking summary
+            System.out.printf("Booking %3d, %7s, %2d nights   >> ", bookingID, customerName, night);
+            for(int i = 0; i < roomTypes.length; i++){
+                if(i == roomTypes.length-1){
+                    System.out.printf("%s (%2d) \n", meal.getMealType(), roomTypes[i]);
+                }else{
+                    System.out.printf("%s (%3d)   ", room.getRoomType(i), roomTypes[i]);
+                }
+            }
+            System.out.printf("Available cashback = %-13d>> Total room price++  = %11.2f     with service charge and VAT\n", cashBack, totalRoomPrice);
+            System.out.printf("                                  >> Total meal price    = %11.2f\n",totalMealPrice);
+            System.out.printf("                                  >> Total bill          = %11.2f     redeem = %-8d\n", totalBill, redeem);
+            System.out.printf("                                  >> Final bill          = %11.2f     cashback for next booking = %-8d\n\n", finalBill, newCashback);
+        }
 
         //Room summary
         System.out.println("===== Room Summary =====");

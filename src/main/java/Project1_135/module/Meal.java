@@ -1,3 +1,6 @@
+//6513135 Purin Pongpanich
+//6513161 Jarupat Chodsitanan
+//6513163 Chalisa Buathong
 package Project1_135.module;
 
 public class Meal {
@@ -15,6 +18,16 @@ public class Meal {
 
         this.mealType = mealType;
         this.price = price;
+    }
+
+    //Add totalSaleInCash
+    public void addTotalSaleInCash(double totalSaleInCash) {
+        this.totalSaleInCash += totalSaleInCash;
+    }
+
+    //Add totalSaleInUnit
+    public void addTotalSaleInUnit(int totalSaleInUnit) {
+        this.totalSaleInUnit += totalSaleInUnit;
     }
 
     // Access MealType
@@ -35,7 +48,7 @@ public class Meal {
 
     // Print meal result data
     public void printResult(){
-        String output = String.format("%-19s total sale = %,6d rooms %,15.2f Baht",mealType,totalSaleInUnit,totalSaleInCash);
+        String output = String.format("%-19s total sales = %,6d heads %,15.2f Baht",mealType,totalSaleInUnit,totalSaleInCash);
         System.out.println(output);
     }
 

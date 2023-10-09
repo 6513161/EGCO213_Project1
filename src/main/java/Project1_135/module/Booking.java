@@ -1,3 +1,6 @@
+//6513135 Purin Pongpanich
+//6513161 Jarupat Chodsitanan
+//6513163 Chalisa Buathong
 package Project1_135.module;
 
 import java.util.ArrayList;
@@ -14,13 +17,25 @@ public class Booking{
         private final String customerName;
         private final int night;
         private final int[] roomTypes;
+        private int cashBack;
 
         // Customer Constructor
-        public Customer(int bookingID, String name, int night, int[] roomTypes) {
+        public Customer(int bookingID, String name, int night, int[] roomTypes,int cashBack) {
             this.bookingID = bookingID;
             this.customerName = name;
             this.night = night;
             this.roomTypes = roomTypes;
+            this.cashBack = cashBack;
+        }
+
+        // Set cashBack
+        public void setCashBack(int cashBack) {
+            this.cashBack = cashBack;
+        }
+
+        // Access cashBack
+        public int getCashBack() {
+            return cashBack;
         }
 
         // Access Booking ID
@@ -46,10 +61,39 @@ public class Booking{
     }
 
     public void addBooking(int bookingID, String name, int night, int[] roomTypes) throws BookingException {
+        int cashBack = 0;
 
-        customers.add(new Customer(bookingID, name, night, roomTypes));
+        customers.add(new Customer(bookingID, name, night, roomTypes, cashBack));
+    }
+    //Fetch customer cashBack
+    public void fetchCustomerCashBack(int bookingID) {
+        for (Customer customer : customers) {
+            if(customer.getBookingID() > bookingID) {
+                break;
+            }
+            if (customer.getCustomerName().equals(getCustomerName(bookingID))) {
+                setCashBack(bookingID, customer.getCashBack());
+                break;
+            }
+        }
     }
 
+    //Set cashBack
+    public void setCashBack(int bookingID, int cashBack) {
+        for (Customer customer : customers) {
+            if (customer.getBookingID() == bookingID) {
+                customer.setCashBack(cashBack);
+            }
+        }
+    }
+    //Access CustomerName of all customers
+    public int[] getBookingIDs() {
+        int[] bookingIDs = new int[customers.size()];
+        for (int i = 0; i < customers.size(); i++) {
+            bookingIDs[i] = customers.get(i).getBookingID();
+        }
+        return bookingIDs;
+    }
 
     // Access CustomerName of a customer by bookingID
     public String getCustomerName(int bookingID) {
@@ -66,6 +110,16 @@ public class Booking{
         for (Customer customer : customers) {
             if (customer.getBookingID() == bookingID) {
                 return customer.getNight();
+            }
+        }
+        return 0; // Default if bookingID not found
+    }
+
+    // Access cashBack of a customer by bookingID
+    public int getCashBack(int bookingID) {
+        for (Customer customer : customers) {
+            if (customer.getBookingID() == bookingID) {
+                return customer.getCashBack();
             }
         }
         return 0; // Default if bookingID not found

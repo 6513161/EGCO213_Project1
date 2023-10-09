@@ -1,3 +1,6 @@
+//6513135 Purin Pongpanich
+//6513161 Jarupat Chodsitanan
+// 6513163 Chalisa Buathong
 package Project1_135.module;
 
 import java.util.ArrayList;
@@ -24,6 +27,16 @@ public class Room {
             double serviceCharge = price * 0.1;
             double vat = (serviceCharge + price) * 0.07;
             this.vatPrice = price + serviceCharge + vat;
+        }
+
+        //Add totalSaleInCash
+        public void addTotalSaleInCash(double totalSaleInCash) {
+            this.totalSaleInCash += totalSaleInCash;
+        }
+
+        //Add totalSaleInUnit
+        public void addTotalSaleInUnit(int totalSaleInUnit) {
+            this.totalSaleInUnit += totalSaleInUnit;
         }
 
         // Access Price
@@ -72,6 +85,28 @@ public class Room {
         }
     }
 
+    //Add totalSaleInCash
+    public void addTotalSaleInCash(String roomType, double totalSaleInCash) throws RoomException {
+        for (RoomDetails roomDetail : roomList) {
+            if (roomDetail.getRoomType().equals(roomType)) {
+                roomDetail.addTotalSaleInCash(totalSaleInCash);
+                return;
+            }
+        }
+        throw new RoomException("Room type not found: " + roomType);
+    }
+
+    //Add totalSaleInUnit
+    public void addTotalSaleInUnit(String roomType, int totalSaleInUnit) throws RoomException {
+        for (RoomDetails roomDetail : roomList) {
+            if (roomDetail.getRoomType().equals(roomType)) {
+                roomDetail.addTotalSaleInUnit(totalSaleInUnit);
+                return;
+            }
+        }
+        throw new RoomException("Room type not found: " + roomType);
+    }
+
     // Add a room with its price
     public void addRoom(String roomType, double price) throws RoomException {
         // Custom RoomException
@@ -85,8 +120,12 @@ public class Room {
 
     // Sort RoomDetails
     public void sortRoom(){
-
         Collections.sort(roomList);
+    }
+
+    // Get roomType by index
+    public String getRoomType(int index) {
+        return roomList.get(index).getRoomType();
     }
 
     // Print Room result
@@ -105,6 +144,16 @@ public class Room {
         }
         return roomTypes;
     }
+
+    // Access the VAT price of all rooms
+    public double[] getRoomPrice() {
+        double[] roomPrice = new double[roomList.size()];
+        for (int i = 0; i < roomList.size(); i++) {
+            roomPrice[i] = roomList.get(i).getVatPrice();
+        }
+        return roomPrice;
+    }
+
 
     // Access the price of a room by roomType
     public double getPrice(String roomType) throws RoomException{
@@ -125,7 +174,6 @@ public class Room {
         }
         throw new RoomException("Room type not found: " + roomType);
     }
-
 
     // Print all room data
     public void print() {
