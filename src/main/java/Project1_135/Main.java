@@ -71,11 +71,11 @@ public final class Main {
             for (int i = 0; i < roomTypes.length; i++) {
                 try {
                     if (i == roomTypes.length - 1) {
-                        totalMealPrice += meal.getPrice() * roomTypes[i];
+                        totalMealPrice += night * meal.getPrice() * roomTypes[i];
                         meal.addTotalSaleInUnit(roomTypes[i]);
                         meal.addTotalSaleInCash(totalMealPrice);
                     } else {
-                        totalRoomPrice += roomPrice[i] * roomTypes[i];
+                        totalRoomPrice += night * roomPrice[i] * roomTypes[i];
                         room.addTotalSaleInUnit(room.getRoomType(i), roomTypes[i]);
                         room.addTotalSaleInCash(room.getRoomType(i), roomTypes[i] * roomPrice[i]);
                     }
