@@ -72,12 +72,12 @@ public final class Main {
                 try {
                     if (i == roomTypes.length - 1) {
                         totalMealPrice += night * meal.getPrice() * roomTypes[i];
-                        meal.addTotalSaleInUnit(roomTypes[i]);
+                        meal.addTotalSaleInUnit(night * roomTypes[i]);
                         meal.addTotalSaleInCash(totalMealPrice);
                     } else {
                         totalRoomPrice += night * roomPrice[i] * roomTypes[i];
-                        room.addTotalSaleInUnit(room.getRoomType(i), roomTypes[i]);
-                        room.addTotalSaleInCash(room.getRoomType(i), roomTypes[i] * roomPrice[i]);
+                        room.addTotalSaleInUnit(room.getRoomType(i), night *roomTypes[i]);
+                        room.addTotalSaleInCash(room.getRoomType(i), roomTypes[i] * roomPrice[i] * night );
                     }
                 }catch (Exception e){
                     System.out.println(e.getMessage());
