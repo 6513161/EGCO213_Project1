@@ -67,15 +67,17 @@ public class Booking{
     }
     //Fetch customer cashBack
     public void fetchCustomerCashBack(int bookingID) {
-        for (Customer customer : customers) {
-            if(customer.getBookingID() > bookingID) {
-                break;
+        for (int i = customers.size() - 1; i >= 0; i--) {
+            Customer customer = customers.get(i);
+            if (customer.getBookingID() >= bookingID) {
+                continue;
             }
             if (customer.getCustomerName().equals(getCustomerName(bookingID))) {
                 setCashBack(bookingID, customer.getCashBack());
                 break;
             }
         }
+
     }
 
     //Set cashBack
